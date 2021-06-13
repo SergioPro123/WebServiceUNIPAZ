@@ -1,0 +1,25 @@
+{
+    "name": "web-service-unipaz",
+    "version": "1.0.0",
+    "description": "Proyecto desarrollado por los estudiantes de ingenieria informatica de 7 semestre 2021",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon server/server"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/SergioPro123/WebServiceUNIPAZ.git"
+    },
+    "author": "Estudiantes Unipaz",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/SergioPro123/WebServiceUNIPAZ/issues"
+    },
+    "homepage": "https://github.com/SergioPro123/WebServiceUNIPAZ#readme",
+    "dependencies": {
+        "express": "^4.17.1",
+        "mysql2": "^2.2.5",
+        "sequelize": "^6.6.2"
+    }
+}
