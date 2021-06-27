@@ -3,6 +3,7 @@ const app = express();
 
 app.use(require('./comuna').app);
 app.use(require('./barrio').app);
+app.use(require('./mensajeria').app);
 
 module.exports = {
     app,
