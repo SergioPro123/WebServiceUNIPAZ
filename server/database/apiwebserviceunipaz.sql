@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-06-2021 a las 04:39:26
+-- Tiempo de generación: 27-06-2021 a las 04:53:12
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 7.4.16
 
@@ -20,6 +20,569 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `apiwebserviceunipaz`
 --
+
+DELIMITER $$
+--
+-- Procedimientos
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddBanco` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `nombre_banco` VARCHAR(50), IN `direccion_VARIABLE` VARCHAR(50), IN `telefono_VARIABLE` VARCHAR(10), IN `sitio_web_VARIABLE` VARCHAR(100))  BEGIN
+	CALL getIdBarrioByNombreBarrio(nombre_barrio_VARIABLE,@id_barrio);
+	INSERT INTO banco
+    	(banco.id_barrio,banco.nombre,
+        banco.direccion,banco.telefono,banco.sitio_web)
+        VALUES(@id_barrio,nombre_banco,direccion_VARIABLE,telefono_VARIABLE,sitio_web_VARIABLE);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `numero_habitantes_VARIABLE` INT(11), IN `numero_comuna_VARIABLE` INT(3))  BEGIN
+	CALL 
+    GetOrAddHabitantes(numero_habitantes_VARIABLE,@id_habitantes);
+    CALL 
+    GetIdComunaByNumeroComuna(numero_comuna_VARIABLE,@id_comuna);
+	INSERT INTO
+    	barrio
+        	(barrio.nombre,barrio.id_habitantes,barrio.id_comuna)		VALUES(nombre_barrio_VARIABLE,@id_habitantes,@id_comuna);
+        
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddColegio` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `nombre_colegio_VARIABLE` VARCHAR(50), IN `direccion_VARIABLE` VARCHAR(50), IN `telefono_VARIABLE` VARCHAR(10), IN `sitio_web_VARIABLE` VARCHAR(100), IN `sector_VARIABLE` VARCHAR(7), IN `modalidad_VARIABLE` VARCHAR(30))  BEGIN
+
+	CALL getIdPublicoPrivado(sector_VARIABLE,@id_publico_privado);
+    CALL getIdBarrioByNombreBarrio(nombre_barrio_VARIABLE,@id_barrio);
+	CALL getIdModalidad(modalidad_VARIABLE,@id_modalidad);
+    INSERT INTO colegio
+    	(colegio.id_barrio,colegio.nombre,
+        colegio.direccion,colegio.telefono,
+         colegio.sitio_web,colegio.id_publico_privado,
+        colegio.id_modalidad)
+        VALUES(@id_barrio,nombre_colegio_VARIABLE,direccion_VARIABLE,
+               telefono_VARIABLE,sitio_web_VARIABLE,@id_publico_privado,@id_modalidad);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddComuna` (IN `numero_comuna_VARIABLE` INT(3), IN `estrato_comuna_VARIABLE` INT(1), IN `numero_habitantes_VARIABLE` INT(11))  BEGIN
+	CALL 
+    GetOrAddHabitantes(numero_habitantes_VARIABLE,@id_habitantes);
+	INSERT INTO comuna
+    	(comuna.estrato,comuna.n_comuna,comuna.id_habitantes)
+    VALUES(estrato_comuna_VARIABLE,numero_comuna_VARIABLE,@id_habitantes);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddHospital` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `nombre_hospital_VARIABLE` VARCHAR(50), IN `direccion_VARIABLE` VARCHAR(50), IN `telefono_VARIABLE` VARCHAR(10), IN `sitio_web_VARIABLE` VARCHAR(100))  BEGIN
+	CALL getIdBarrioByNombreBarrio(nombre_barrio_VARIABLE,@id_barrio);
+	INSERT INTO hospital
+    	(hospital.id_barrio,hospital.nombre,
+        hospital.direccion,hospital.telefono,hospital.sitio_web)
+        VALUES(@id_barrio,nombre_hospital_VARIABLE,direccion_VARIABLE,telefono_VARIABLE,sitio_web_VARIABLE);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddMensajeria` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `nombre_mensajeria` VARCHAR(50), IN `direccion_VARIABLE` VARCHAR(50), IN `telefono_VARIABLE` VARCHAR(10), IN `sitio_web_VARIABLE` VARCHAR(100))  BEGIN
+	CALL getIdBarrioByNombreBarrio(nombre_barrio_VARIABLE,@id_barrio);
+	INSERT INTO mensajeria
+    	(mensajeria.id_barrio,mensajeria.nombre,
+        mensajeria.direccion,mensajeria.telefono,mensajeria.sitio_web)
+        VALUES(@id_barrio,nombre_mensajeria,direccion_VARIABLE,telefono_VARIABLE,sitio_web_VARIABLE);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `AddUniversidad` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `nombre_universidad_VARIABLE` VARCHAR(50), IN `direccion_VARIABLE` VARCHAR(50), IN `telefono_VARIABLE` VARCHAR(10), IN `sitio_web_VARIABLE` VARCHAR(100), IN `sector_VARIABLE` VARCHAR(7))  BEGIN
+
+	CALL getIdPublicoPrivado(sector_VARIABLE,@id_publico_privado);
+    CALL getIdBarrioByNombreBarrio(nombre_barrio_VARIABLE,@id_barrio);
+	INSERT INTO universidad
+    	(universidad.id_barrio,universidad.nombre,
+        universidad.direccion,universidad.telefono,
+         universidad.sitio_web,universidad.id_publico_privado)
+        VALUES(@id_barrio,nombre_universidad_VARIABLE,direccion_VARIABLE,
+               telefono_VARIABLE,sitio_web_VARIABLE,@id_publico_privado);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getBancoByBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50))  BEGIN
+	SELECT banco.nombre nombre_banco,
+    	   comuna.n_comuna as numero_comuna,
+           comuna.estrato,
+           myBarrio.nombre as nombre_barrio,
+           habitantes.cantidad_habitantes
+           	as cantidad_habitantes_barrio,
+           banco.direccion,
+           banco.telefono,
+           banco.sitio_web
+    FROM banco
+    INNER JOIN barrio as myBarrio
+    	on banco.id_barrio
+        	= myBarrio.id_barrio
+    INNER JOIN comuna
+    	ON myBarrio.id_comuna
+        	= comuna.id_comuna
+    INNER JOIN habitantes
+    	ON myBarrio.id_habitantes
+        	= habitantes.id_habitantes
+     WHERE myBarrio.nombre = nombre_barrio_VARIABLE;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getBancoByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
+	SELECT banco.nombre nombre_banco,
+    	   comuna.n_comuna as numero_comuna,
+           comuna.estrato,
+           myBarrio.nombre as nombre_barrio,
+           habitantes.cantidad_habitantes
+           	as cantidad_habitantes_barrio,
+           banco.direccion,
+           banco.telefono,
+           banco.sitio_web
+    FROM banco
+    INNER JOIN barrio as myBarrio
+    	on banco.id_barrio
+        	= myBarrio.id_barrio
+    INNER JOIN comuna
+    	ON myBarrio.id_comuna
+        	= comuna.id_comuna
+    INNER JOIN habitantes
+    	ON myBarrio.id_habitantes
+        	= habitantes.id_habitantes
+     WHERE comuna.n_comuna = numero_comuna_VARIABLE;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getBancos` ()  BEGIN
+	SELECT banco.nombre nombre_banco,
+    	   comuna.n_comuna as numero_comuna,
+           comuna.estrato,
+           myBarrio.nombre as nombre_barrio,
+           habitantes.cantidad_habitantes
+           	as cantidad_habitantes_barrio,
+           banco.direccion,
+           banco.telefono,
+           banco.sitio_web
+    FROM banco
+    INNER JOIN barrio as myBarrio
+    	on banco.id_barrio
+        	= myBarrio.id_barrio
+    INNER JOIN comuna
+    	ON myBarrio.id_comuna
+        	= comuna.id_comuna
+    INNER JOIN habitantes
+    	ON myBarrio.id_habitantes
+        	= habitantes.id_habitantes;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getBarrios` ()  BEGIN
+       SELECT  
+       	barrio.nombre as nombre_barrio,
+        comuna.n_comuna,
+        habitantes.cantidad_habitantes AS numero_habitantes
+    FROM barrio
+    INNER JOIN habitantes	
+        ON barrio.id_habitantes = habitantes.id_habitantes
+    INNER JOIN comuna
+    	ON barrio.id_comuna = comuna.id_comuna;
+ 
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getBarriosByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(2))  BEGIN
+       SELECT  
+       	barrio.nombre as nombre_barrio,
+        comuna.n_comuna,
+        habitantes.cantidad_habitantes AS numero_habitantes
+    FROM barrio
+    INNER JOIN habitantes	
+        ON barrio.id_habitantes = habitantes.id_habitantes
+    INNER JOIN comuna
+    	ON barrio.id_comuna = comuna.id_comuna
+    WHERE comuna.n_comuna = numero_comuna_VARIABLE;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getColegioByBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50))  BEGIN
+	SELECT colegio.nombre nombre_colegio,
+    	   comuna.n_comuna as numero_comuna,
+           comuna.estrato,
+           myBarrio.nombre as nombre_barrio,
+           habitantes.cantidad_habitantes
+           	as cantidad_habitantes_barrio,
+           colegio.direccion,
+           colegio.telefono,
+           colegio.sitio_web,
+           publico_privado.tipo as sector,
+           modalidad.tipo as modalidad
+    FROM colegio
+    INNER JOIN barrio as myBarrio
+    	on colegio.id_barrio
+        	= myBarrio.id_barrio
+    INNER JOIN publico_privado
+    	ON colegio.id_publico_privado
+        	= publico_privado.id_publico_privado
+    INNER JOIN modalidad
+    	ON colegio.id_modalidad = modalidad.id_modalidad     
+    INNER JOIN comuna
+    	ON myBarrio.id_comuna
+        	= comuna.id_comuna
+    INNER JOIN habitantes
+    	ON myBarrio.id_habitantes
+        	= habitantes.id_habitantes
+    WHERE
+    	myBarrio.nombre = nombre_barrio_VARIABLE;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getColegioByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
+	SELECT colegio.nombre nombre_colegio,
+    	   comuna.n_comuna as numero_comuna,
+           comuna.estrato,
+           myBarrio.nombre as nombre_barrio,
+           habitantes.cantidad_habitantes
+           	as cantidad_habitantes_barrio,
+           colegio.direccion,
+           colegio.telefono,
+           colegio.sitio_web,
+           publico_privado.tipo as sector,
+           modalidad.tipo as modalidad
+    FROM colegio
+    INNER JOIN barrio as myBarrio
+    	on colegio.id_barrio
+        	= myBarrio.id_barrio
+    INNER JOIN publico_privado
+    	ON colegio.id_publico_privado
+        	= publico_privado.id_publico_privado
+    INNER JOIN modalidad
+    	ON colegio.id_modalidad = modalidad.id_modalidad     
+    INNER JOIN comuna
+    	ON myBarrio.id_comuna
+        	= comuna.id_comuna
+    INNER JOIN habitantes
+    	ON myBarrio.id_habitantes
+        	= habitantes.id_habitantes
+    WHERE
+    	comuna.n_comuna = numero_comuna_VARIABLE;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getColegios` ()  BEGIN
+	SELECT colegio.nombre nombre_colegio,
+    	   comuna.n_comuna as numero_comuna,
+           comuna.estrato,
+           myBarrio.nombre as nombre_barrio,
+           habitantes.cantidad_habitantes
+           	as cantidad_habitantes_barrio,
+           colegio.direccion,
+           colegio.telefono,
+           colegio.sitio_web,
+           publico_privado.tipo as sector,
+           modalidad.tipo as modalidad
+    FROM colegio
+    INNER JOIN barrio as myBarrio
+    	on colegio.id_barrio
+        	= myBarrio.id_barrio
+    INNER JOIN publico_privado
+    	ON colegio.id_publico_privado
+        	= publico_privado.id_publico_privado
+    INNER JOIN modalidad
+    	ON colegio.id_modalidad = modalidad.id_modalidad
+    INNER JOIN comuna
+    	ON myBarrio.id_comuna
+        	= comuna.id_comuna
+    INNER JOIN habitantes
+    	ON myBarrio.id_habitantes
+        	= habitantes.id_habitantes;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getComunas` ()  BEGIN
+    SELECT comuna.n_comuna,
+    	   comuna.estrato,
+    	   habitantes.cantidad_habitantes AS numero_habitantes
+    FROM comuna
+    INNER JOIN habitantes
+    ON comuna.id_habitantes
+    	= habitantes.id_habitantes;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getComunasByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
+    SELECT comuna.n_comuna,
+    	   comuna.estrato,
+    	   habitantes.cantidad_habitantes AS numero_habitantes
+    FROM comuna
+    INNER JOIN habitantes
+    ON comuna.id_habitantes
+    	= habitantes.id_habitantes
+    WHERE
+    	comuna.n_comuna = numero_comuna_VARIABLE;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getHospitalByBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50))  BEGIN
+	SELECT hospital.nombre nombre_hospital,
+    	   comuna.n_comuna as numero_comuna,
+           comuna.estrato,
+           myBarrio.nombre as nombre_barrio,
+           habitantes.cantidad_habitantes
+           	as cantidad_habitantes_barrio,
+           hospital.direccion,
+           hospital.telefono,
+           hospital.sitio_web
+    FROM hospital
+    INNER JOIN barrio as myBarrio
+    	on hospital.id_barrio
+        	= myBarrio.id_barrio
+    INNER JOIN comuna
+    	ON myBarrio.id_comuna
+        	= comuna.id_comuna
+    INNER JOIN habitantes
+    	ON myBarrio.id_habitantes
+        	= habitantes.id_habitantes
+     WHERE myBarrio.nombre = nombre_barrio_VARIABLE;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getHospitalByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
+	SELECT hospital.nombre nombre_hospital,
+    	   comuna.n_comuna as numero_comuna,
+           comuna.estrato,
+           myBarrio.nombre as nombre_barrio,
+           habitantes.cantidad_habitantes
+           	as cantidad_habitantes_barrio,
+           hospital.direccion,
+           hospital.telefono,
+           hospital.sitio_web
+    FROM hospital
+    INNER JOIN barrio as myBarrio
+    	on hospital.id_barrio
+        	= myBarrio.id_barrio
+    INNER JOIN comuna
+    	ON myBarrio.id_comuna
+        	= comuna.id_comuna
+    INNER JOIN habitantes
+    	ON myBarrio.id_habitantes
+        	= habitantes.id_habitantes
+     WHERE comuna.n_comuna = numero_comuna_VARIABLE;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getHospitales` ()  BEGIN
+	SELECT hospital.nombre nombre_hospital,
+    	   comuna.n_comuna as numero_comuna,
+           comuna.estrato,
+           myBarrio.nombre as nombre_barrio,
+           habitantes.cantidad_habitantes
+           	as cantidad_habitantes_barrio,
+           hospital.direccion,
+           hospital.telefono,
+           hospital.sitio_web
+    FROM hospital
+    INNER JOIN barrio as myBarrio
+    	on hospital.id_barrio
+        	= myBarrio.id_barrio
+    INNER JOIN comuna
+    	ON myBarrio.id_comuna
+        	= comuna.id_comuna
+    INNER JOIN habitantes
+    	ON myBarrio.id_habitantes
+        	= habitantes.id_habitantes;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getIdBarrioByNombreBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50), OUT `id_barrio_OUT` INT(11))  BEGIN
+    SELECT barrio.id_barrio
+    INTO id_barrio_OUT
+    FROM barrio
+    WHERE
+    	barrio.nombre = nombre_barrio_VARIABLE
+    LIMIT 1;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetIdComunaByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3), OUT `id_comuna_OUT` INT(3))  BEGIN
+    SELECT comuna.id_comuna
+    INTO id_comuna_OUT
+    FROM comuna
+    INNER JOIN habitantes
+    ON comuna.id_habitantes
+    	= habitantes.id_habitantes
+    WHERE
+    	comuna.n_comuna = numero_comuna_VARIABLE;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getIdModalidad` (IN `modadlidad_VARIABLE` VARCHAR(30), OUT `id_modalidad_OUT` INT(1))  BEGIN
+
+	SELECT  modalidad.id_modalidad
+    INTO id_modalidad_OUT
+    FROM modalidad
+    WHERE modalidad.tipo = modadlidad_VARIABLE;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getIdPublicoPrivado` (IN `sector_VARIABLE` VARCHAR(7), OUT `id_publico_privado_OUT` INT)  BEGIN
+
+	SELECT publico_privado.id_publico_privado
+    INTO id_publico_privado_OUT
+    FROM publico_privado
+    WHERE publico_privado.tipo = sector_VARIABLE;
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getMensajeriaByBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50))  BEGIN
+	SELECT mensajeria.nombre nombre_mensajeria,
+    	   comuna.n_comuna as numero_comuna,
+           comuna.estrato,
+           myBarrio.nombre as nombre_barrio,
+           habitantes.cantidad_habitantes
+           	as cantidad_habitantes_barrio,
+           mensajeria.direccion,
+           mensajeria.telefono,
+           mensajeria.sitio_web
+    FROM mensajeria
+    INNER JOIN barrio as myBarrio
+    	on mensajeria.id_barrio
+        	= myBarrio.id_barrio
+    INNER JOIN comuna
+    	ON myBarrio.id_comuna
+        	= comuna.id_comuna
+    INNER JOIN habitantes
+    	ON myBarrio.id_habitantes
+        	= habitantes.id_habitantes
+     WHERE myBarrio.nombre = nombre_barrio_VARIABLE;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getMensajeriaByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
+	SELECT mensajeria.nombre nombre_mensajeria,
+    	   comuna.n_comuna as numero_comuna,
+           comuna.estrato,
+           myBarrio.nombre as nombre_barrio,
+           habitantes.cantidad_habitantes
+           	as cantidad_habitantes_barrio,
+           mensajeria.direccion,
+           mensajeria.telefono,
+           mensajeria.sitio_web
+    FROM mensajeria
+    INNER JOIN barrio as myBarrio
+    	on mensajeria.id_barrio
+        	= myBarrio.id_barrio
+    INNER JOIN comuna
+    	ON myBarrio.id_comuna
+        	= comuna.id_comuna
+    INNER JOIN habitantes
+    	ON myBarrio.id_habitantes
+        	= habitantes.id_habitantes
+     WHERE comuna.n_comuna = numero_comuna_VARIABLE;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getMensajerias` ()  BEGIN
+	SELECT mensajeria.nombre nombre_mensajeria,
+    	   comuna.n_comuna as numero_comuna,
+           comuna.estrato,
+           myBarrio.nombre as nombre_barrio,
+           habitantes.cantidad_habitantes
+           	as cantidad_habitantes_barrio,
+           mensajeria.direccion,
+           mensajeria.telefono,
+           mensajeria.sitio_web
+    FROM mensajeria
+    INNER JOIN barrio as myBarrio
+    	on mensajeria.id_barrio
+        	= myBarrio.id_barrio
+    INNER JOIN comuna
+    	ON myBarrio.id_comuna
+        	= comuna.id_comuna
+    INNER JOIN habitantes
+    	ON myBarrio.id_habitantes
+        	= habitantes.id_habitantes;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `GetOrAddHabitantes` (IN `numero_habitantesVariable` INT(11), OUT `id_habitantes_OUT` INT(11))  BEGIN
+	DECLARE existeHabitantes INT;
+    SELECT  COUNT(habitantes.id_habitantes) 
+    	INTO existeHabitantes 
+    FROM habitantes 
+    WHERE habitantes.cantidad_habitantes = numero_habitantesVariable; 
+    
+    IF existeHabitantes > 0 THEN
+    	SELECT habitantes.id_habitantes INTO id_habitantes_OUT 
+        FROM habitantes 
+    	WHERE habitantes.cantidad_habitantes = numero_habitantesVariable
+        LIMIT 1; 
+    ELSE
+    	INSERT INTO 
+            habitantes(habitantes.cantidad_habitantes)
+            VALUES(numero_habitantesVariable);
+        SELECT LAST_INSERT_ID() into id_habitantes_OUT;
+    END IF;    
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUniversidadByBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50))  BEGIN
+	SELECT universidad.nombre nombre_universidad,
+    	   comuna.n_comuna as numero_comuna,
+           comuna.estrato,
+           myBarrio.nombre as nombre_barrio,
+           habitantes.cantidad_habitantes
+           	as cantidad_habitantes_barrio,
+           universidad.direccion,
+           universidad.telefono,
+           universidad.sitio_web,
+           publico_privado.tipo as sector
+    FROM universidad
+    INNER JOIN barrio as myBarrio
+    	on universidad.id_barrio
+        	= myBarrio.id_barrio
+    INNER JOIN publico_privado
+    	ON universidad.id_publico_privado
+        	= publico_privado.id_publico_privado
+    INNER JOIN comuna
+    	ON myBarrio.id_comuna
+        	= comuna.id_comuna
+    INNER JOIN habitantes
+    	ON myBarrio.id_habitantes
+        	= habitantes.id_habitantes
+    WHERE
+    	myBarrio.nombre = nombre_barrio_VARIABLE;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUniversidadByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
+	SELECT universidad.nombre nombre_universidad,
+    	   comuna.n_comuna as numero_comuna,
+           comuna.estrato,
+           myBarrio.nombre as nombre_barrio,
+           habitantes.cantidad_habitantes
+           	as cantidad_habitantes_barrio,
+           universidad.direccion,
+           universidad.telefono,
+           universidad.sitio_web,
+           publico_privado.tipo as sector
+    FROM universidad
+    INNER JOIN barrio as myBarrio
+    	on universidad.id_barrio
+        	= myBarrio.id_barrio
+    INNER JOIN publico_privado
+    	ON universidad.id_publico_privado
+        	= publico_privado.id_publico_privado
+    INNER JOIN comuna
+    	ON myBarrio.id_comuna
+        	= comuna.id_comuna
+    INNER JOIN habitantes
+    	ON myBarrio.id_habitantes
+        	= habitantes.id_habitantes
+    WHERE
+    	comuna.n_comuna = numero_comuna_VARIABLE;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUniversidades` ()  BEGIN
+	SELECT universidad.nombre nombre_universidad,
+    	   comuna.n_comuna as numero_comuna,
+           comuna.estrato,
+           myBarrio.nombre as nombre_barrio,
+           habitantes.cantidad_habitantes
+           	as cantidad_habitantes_barrio,
+           universidad.direccion,
+           universidad.telefono,
+           universidad.sitio_web,
+           publico_privado.tipo as sector
+    FROM universidad
+    INNER JOIN barrio as myBarrio
+    	on universidad.id_barrio
+        	= myBarrio.id_barrio
+    INNER JOIN publico_privado
+    	ON universidad.id_publico_privado
+        	= publico_privado.id_publico_privado
+    INNER JOIN comuna
+    	ON myBarrio.id_comuna
+        	= comuna.id_comuna
+    INNER JOIN habitantes
+    	ON myBarrio.id_habitantes
+        	= habitantes.id_habitantes;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -71,7 +634,8 @@ INSERT INTO `banco` (`id_banco`, `id_barrio`, `nombre`, `direccion`, `telefono`,
 (50, 17, 'Wehner-Parisian', '', '(967) 1981', 'businessinsider.com'),
 (51, 30, 'Herman, Maggio and Cummerata', '', '(249) 1489', 'google.es'),
 (52, 84, 'Bernhard, VonRueden and Reichel', '', '(914) 1255', 'latimes.com'),
-(53, 16, 'Sanford Group', '', '(180) 4074', 'last.fm');
+(53, 16, 'Sanford Group', '', '(180) 4074', 'last.fm'),
+(55, 5, 'banco los pros', 'calle los prosss', '626262', 'www.mibanco.com');
 
 -- --------------------------------------------------------
 
@@ -83,7 +647,7 @@ CREATE TABLE `barrio` (
   `id_barrio` int(11) NOT NULL,
   `nombre` varchar(50) NOT NULL,
   `id_habitantes` int(11) NOT NULL,
-  `id_comuna` int(1) NOT NULL
+  `id_comuna` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -92,41 +656,41 @@ CREATE TABLE `barrio` (
 
 INSERT INTO `barrio` (`id_barrio`, `nombre`, `id_habitantes`, `id_comuna`) VALUES
 (1, 'Arenal', 28, 1),
-(2, '?Buenos Aires', 13, 1),
-(3, '?Buenos Aires II', 12, 1),
-(4, '?Cardales', 35, 1),
-(5, '?Colombia', 39, 1),
-(6, '?David Nu?ez Cala', 32, 1),
+(2, 'Buenos Aires', 13, 1),
+(3, 'Buenos Aires II', 12, 1),
+(4, 'Cardales', 35, 1),
+(5, 'Colombia', 39, 1),
+(6, 'David Nuez Cala', 32, 1),
 (7, 'El Cruce', 27, 1),
-(8, '?El Dorado', 38, 1),
-(9, '?El Recreo', 36, 1),
-(10, 'Gonzalo Jim?nez de Quesada', 46, 1),
-(11, 'Invasi?n San Luis', 52, 1),
+(8, 'El Dorado', 38, 1),
+(9, 'El Recreo', 36, 1),
+(10, 'Gonzalo Jimnez de Quesada', 46, 1),
+(11, 'Invasin San Luis', 52, 1),
 (12, 'Isla del Zapato', 53, 1),
-(13, '?La campana', 32, 1),
-(14, '?La Victoria', 32, 1),
-(15, '?La Victoria II', 26, 1),
-(16, '?Las Margaritas', 35, 1),
-(17, '?Las Playas', 20, 1),
-(18, '?Palmira', 38, 1),
-(19, '?San Francisco', 37, 1),
-(20, '?Sector Comercial y Muelle', 35, 1),
-(21, '?Tres Unidos', 35, 1),
-(22, '?Urb. Nuevo Palmira.', 37, 1),
+(13, 'La campana', 32, 1),
+(14, 'La Victoria', 32, 1),
+(15, 'La Victoria II', 26, 1),
+(16, 'Las Margaritas', 35, 1),
+(17, 'Las Playas', 20, 1),
+(18, 'Palmira', 38, 1),
+(19, 'San Francisco', 37, 1),
+(20, 'Sector Comercial y Muelle', 35, 1),
+(21, 'Tres Unidos', 35, 1),
+(22, 'Urb. Nuevo Palmira.', 37, 1),
 (23, 'Aguas Claras', 16, 2),
-(24, '?Ciudad Bol?var', 42, 2),
-(25, '?Gal?n G?mez', 13, 2),
-(26, '?Olaya Herrera', 50, 2),
-(27, '?Parnaso', 35, 2),
-(28, '?Barrio Pueblo Nuevo', 9, 2),
-(29, '?Barrio Torcoroma', 53, 2),
-(30, '?Barrio Uribe Uribe', 42, 2),
-(31, '?Barrio Villa Luz', 54, 2),
+(24, 'Ciudad Bolvar', 42, 2),
+(25, 'Galn Gmez', 13, 2),
+(26, 'Olaya Herrera', 50, 2),
+(27, 'Parnaso', 35, 2),
+(28, 'Barrio Pueblo Nuevo', 9, 2),
+(29, 'Barrio Torcoroma', 53, 2),
+(30, 'Barrio Uribe Uribe', 42, 2),
+(31, 'Barrio Villa Luz', 54, 2),
 (32, 'esto es una prueba', 12, 5),
-(33, '?Alto De Los ?ngeles', 24, 3),
-(34, '?Altos De La Virgen J.V.C', 50, 3),
-(35, '?Altos Del Rosario', 15, 3),
-(36, '?Asentamiento Humano Caminos De San Silvestre', 32, 3),
+(33, 'Alto De Los ngeles', 24, 3),
+(34, 'Altos De La Virgen J.V.C', 50, 3),
+(35, 'Altos Del Rosario', 15, 3),
+(36, 'Asentamiento Humano Caminos De San Silvestre', 32, 3),
 (37, ' Belén', 20, 3),
 (38, ' Brisas Del 20 De Enero', 50, 3),
 (39, ' Campo Hermoso', 7, 3),
@@ -161,58 +725,58 @@ INSERT INTO `barrio` (`id_barrio`, `nombre`, `id_habitantes`, `id_comuna`) VALUE
 (68, ' La Tora', 5, 3),
 (69, ' Las Camelias.', 41, 3),
 (70, 'Altos Del Cincuentenario', 24, 4),
-(71, '?Altos Del Ca?averal', 14, 4),
+(71, 'Altos Del Caaveral', 14, 4),
 (72, ' Antonia Santos', 6, 4),
-(73, '?Autoconstrucci?n VII Etapa Cincuentenario', 10, 4),
-(74, '?Bellavista', 21, 4),
-(75, '?Bosques De La Cira', 51, 4),
-(76, '?Bosques De La Cira II', 52, 4),
-(77, '?Buenavista', 35, 4),
+(73, 'Autoconstruccin VII Etapa Cincuentenario', 10, 4),
+(74, 'Bellavista', 21, 4),
+(75, 'Bosques De La Cira', 51, 4),
+(76, 'Bosques De La Cira II', 52, 4),
+(77, 'Buenavista', 35, 4),
 (78, ' Buenavista II', 8, 4),
-(79, '?Cincuentenario', 47, 4),
-(80, '?Cincuentenario Vi Etapa Sector El Madrigal', 22, 4),
-(81, '?Ciudadela Del Cincuentenario', 49, 4),
-(82, '?El Bosque', 42, 4),
-(83, '?El Castillo', 54, 4),
-(84, '?El Palmar', 40, 4),
-(85, '?El Refugio', 7, 4),
-(86, '?J.V.C. Asentamiento Humano Nuevo Milenio Sur', 40, 4),
+(79, 'Cincuentenario', 47, 4),
+(80, 'Cincuentenario Vi Etapa Sector El Madrigal', 22, 4),
+(81, 'Ciudadela Del Cincuentenario', 49, 4),
+(82, 'El Bosque', 42, 4),
+(83, 'El Castillo', 54, 4),
+(84, 'El Palmar', 40, 4),
+(85, 'El Refugio', 7, 4),
+(86, 'J.V.C. Asentamiento Humano Nuevo Milenio Sur', 40, 4),
 (87, ' J.V.C. Villa Del Cincuentenario', 6, 4),
-(112, 'Alc?zar', 11, 5),
-(113, '?Asentamiento Humano Colinas Del Seminario', 9, 5),
-(114, '?Asentamiento Humano La Nueva Esperanza', 38, 5),
-(115, '?Asentamiento Humano Las Torres', 17, 5),
-(116, '?Asentamiento Humano Nuevo Milenio', 15, 5),
-(117, '?Barrancabermeja', 19, 5),
-(118, '?Campo Alegre', 37, 5),
-(119, '?Chapinero', 9, 5),
-(120, '?El Chico', 43, 5),
-(121, '?El Porvenir', 48, 5),
-(122, '??El Triunfo', 32, 5),
-(123, '?Chapinero II', 7, 5),
-(124, '?J.V.C. Ramaral', 9, 5),
-(125, '?J.V.C. Tierradentro II', 41, 5),
-(126, '?La Candelaria', 29, 5),
-(127, '?La Esperanza', 17, 5),
-(128, '?La Independencia', 30, 5),
-(129, '?Las Mercedes', 51, 5),
-(130, '?La Tora', 27, 5),
-(131, '?Las Am?ricas', 46, 5),
-(132, '?Las Camelias', 46, 5),
-(133, '?Las Malvinas Bajas', 43, 5),
-(134, '?Los Rosales', 45, 5),
-(135, '?Malvinas Alta', 18, 5),
-(136, '?Primero De Mayo', 6, 5),
-(137, '?San Pedro Claver', 30, 5),
-(138, ' San Jos? De Provivienda', 38, 5),
-(139, ' San Jos? Obrero', 25, 5),
-(140, '?Santa Ana', 32, 5),
-(141, '?Santander', 28, 5),
-(142, '?Simon Bol?var', 39, 5),
-(143, '?Tierra Adentro', 32, 5),
-(144, '?Urbanizaci?n Los Lagos', 11, 5),
-(145, '?Versalles', 31, 5),
-(146, '?Villa Rosita.', 33, 5),
+(112, 'Alczar', 11, 5),
+(113, 'Asentamiento Humano Colinas Del Seminario', 9, 5),
+(114, 'Asentamiento Humano La Nueva Esperanza', 38, 5),
+(115, 'Asentamiento Humano Las Torres', 17, 5),
+(116, 'Asentamiento Humano Nuevo Milenio', 15, 5),
+(117, 'Barrancabermeja', 19, 5),
+(118, 'Campo Alegre', 37, 5),
+(119, 'Chapinero', 9, 5),
+(120, 'El Chico', 43, 5),
+(121, 'El Porvenir', 48, 5),
+(122, 'El Triunfo', 32, 5),
+(123, 'Chapinero II', 7, 5),
+(124, 'J.V.C. Ramaral', 9, 5),
+(125, 'J.V.C. Tierradentro II', 41, 5),
+(126, 'La Candelaria', 29, 5),
+(127, 'La Esperanza', 17, 5),
+(128, 'La Independencia', 30, 5),
+(129, 'Las Mercedes', 51, 5),
+(130, 'La Tora', 27, 5),
+(131, 'Las Amricas', 46, 5),
+(132, 'Las Camelias', 46, 5),
+(133, 'Las Malvinas Bajas', 43, 5),
+(134, 'Los Rosales', 45, 5),
+(135, 'Malvinas Alta', 18, 5),
+(136, 'Primero De Mayo', 6, 5),
+(137, 'San Pedro Claver', 30, 5),
+(138, ' San Jos De Provivienda', 38, 5),
+(139, ' San Jos Obrero', 25, 5),
+(140, 'Santa Ana', 32, 5),
+(141, 'Santander', 28, 5),
+(142, 'Simon Bolvar', 39, 5),
+(143, 'Tierra Adentro', 32, 5),
+(144, 'Urbanizacin Los Lagos', 11, 5),
+(145, 'Versalles', 31, 5),
+(146, 'Villa Rosita.', 33, 5),
 (147, 'Antonio Nariño', 49, 6),
 (148, ' Benjamín Herrera', 36, 6),
 (149, ' Boston', 15, 6),
@@ -259,7 +823,8 @@ INSERT INTO `barrio` (`id_barrio`, `nombre`, `id_habitantes`, `id_comuna`) VALUE
 (190, ' Vereda La Independencia', 10, 7),
 (191, ' Villarelis Dos', 47, 7),
 (192, ' Villarelis Uno', 14, 7),
-(193, ' Villarelis Tres', 6, 7);
+(193, ' Villarelis Tres', 6, 7),
+(194, 'Los Mas Pros', 55, 5);
 
 -- --------------------------------------------------------
 
@@ -312,7 +877,8 @@ INSERT INTO `colegio` (`id_colegio`, `id_barrio`, `nombre`, `direccion`, `telefo
 (27, 7, 'Reilly, Steuber and Lesch', '91 Carpenter Court', '(649) 6356', 'edublogs.org', 2, 2),
 (28, 34, 'Pouros-Block', '50262 Crescent Oaks Alley', '(249) 9113', 'php.net', 2, 2),
 (29, 3, 'Jerde, Monahan and Haley', '0520 Service Circle', '(285) 3726', 'vk.com', 2, 1),
-(30, 1, 'Kub and Sons', '120 Hoffman Avenue', '(452) 6506', 'g.co', 1, 2);
+(30, 1, 'Kub and Sons', '120 Hoffman Avenue', '(452) 6506', 'g.co', 1, 2),
+(31, 5, 'colegio los pros', 'calle los pross', '65854125', 'www.micolegio.com', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -338,7 +904,8 @@ INSERT INTO `comuna` (`id_comuna`, `estrato`, `n_comuna`, `id_habitantes`) VALUE
 (4, 1, 4, 2),
 (5, 2, 5, 4),
 (6, 2, 6, 2),
-(7, 1, 7, 1);
+(7, 1, 7, 1),
+(8, 10, 8, 56);
 
 -- --------------------------------------------------------
 
@@ -409,7 +976,9 @@ INSERT INTO `habitantes` (`id_habitantes`, `cantidad_habitantes`) VALUES
 (51, 59238),
 (52, 80),
 (53, 2797),
-(54, 749);
+(54, 749),
+(55, 999),
+(56, 555);
 
 -- --------------------------------------------------------
 
@@ -460,7 +1029,8 @@ INSERT INTO `hospital` (`id_hospital`, `id_barrio`, `nombre`, `direccion`, `tele
 (49, 125, 'Konopelski and Sons', '', '(575) 5435', 'theglobeandmail.com'),
 (51, 72, 'Marquardt-Hessel', '', '(149) 6483', 'freewebs.com'),
 (53, 129, 'Schimmel and Sons', '', '(251) 6590', 'java.com'),
-(54, 193, 'Lockman Inc', '', '(700) 8193', 'stumbleupon.com');
+(54, 193, 'Lockman Inc', '', '(700) 8193', 'stumbleupon.com'),
+(55, 5, 'hospital los pros', 'calle los pro', '314314314', 'www.hospital.com');
 
 -- --------------------------------------------------------
 
@@ -515,7 +1085,8 @@ INSERT INTO `mensajeria` (`id_mensajeria`, `id_barrio`, `nombre`, `direccion`, `
 (48, 174, 'Rath and Sons', '', '(319) 1156', 'yolasite.com'),
 (49, 138, 'Harvey, Cartwright and Treutel', '', '(107) 6344', 'imdb.com'),
 (50, 34, 'Wiegand-Johnson', '', '(728) 9391', 'canalblog.com'),
-(51, 130, 'Trantow Inc', '', '(572) 3192', 'ibm.com');
+(51, 130, 'Trantow Inc', '', '(572) 3192', 'ibm.com'),
+(52, 5, 'Mensajeria Los Pros', 'Calle ####', '602605262', 'www.mensajeriaslospros.com');
 
 -- --------------------------------------------------------
 
@@ -605,7 +1176,8 @@ INSERT INTO `universidad` (`id_universidad`, `id_barrio`, `nombre`, `direccion`,
 (27, 39, 'Koepp Inc', '', '(995) 1630', 'eepurl.com', 1),
 (28, 6, 'Gleason LLC', '', '(655) 2834', 'quantcast.com', 2),
 (29, 22, 'Davis, Gutmann and Dietrich', '', '(103) 4840', 'boston.com', 2),
-(30, 185, 'Ledner and Sons', '', '(600) 3504', 'hubpages.com', 2);
+(30, 185, 'Ledner and Sons', '', '(600) 3504', 'hubpages.com', 2),
+(31, 5, 'universidad los pros', 'calle calle', '32654789', 'www.miuniversidad.com', 2);
 
 --
 -- Índices para tablas volcadas
@@ -640,6 +1212,7 @@ ALTER TABLE `colegio`
 --
 ALTER TABLE `comuna`
   ADD PRIMARY KEY (`id_comuna`),
+  ADD UNIQUE KEY `n_comuna` (`n_comuna`),
   ADD KEY `id_habitantes` (`id_habitantes`);
 
 --
@@ -690,43 +1263,43 @@ ALTER TABLE `universidad`
 -- AUTO_INCREMENT de la tabla `banco`
 --
 ALTER TABLE `banco`
-  MODIFY `id_banco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id_banco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT de la tabla `barrio`
 --
 ALTER TABLE `barrio`
-  MODIFY `id_barrio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=194;
+  MODIFY `id_barrio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
 
 --
 -- AUTO_INCREMENT de la tabla `colegio`
 --
 ALTER TABLE `colegio`
-  MODIFY `id_colegio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_colegio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de la tabla `comuna`
 --
 ALTER TABLE `comuna`
-  MODIFY `id_comuna` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_comuna` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `habitantes`
 --
 ALTER TABLE `habitantes`
-  MODIFY `id_habitantes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id_habitantes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT de la tabla `hospital`
 --
 ALTER TABLE `hospital`
-  MODIFY `id_hospital` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `id_hospital` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT de la tabla `mensajeria`
 --
 ALTER TABLE `mensajeria`
-  MODIFY `id_mensajeria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id_mensajeria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT de la tabla `modalidad`
@@ -744,7 +1317,7 @@ ALTER TABLE `publico_privado`
 -- AUTO_INCREMENT de la tabla `universidad`
 --
 ALTER TABLE `universidad`
-  MODIFY `id_universidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_universidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Restricciones para tablas volcadas
