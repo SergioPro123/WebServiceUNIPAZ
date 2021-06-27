@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-06-2021 a las 04:53:12
+-- Tiempo de generación: 28-06-2021 a las 01:33:40
 -- Versión del servidor: 10.4.18-MariaDB
 -- Versión de PHP: 7.4.16
 
@@ -635,7 +635,8 @@ INSERT INTO `banco` (`id_banco`, `id_barrio`, `nombre`, `direccion`, `telefono`,
 (51, 30, 'Herman, Maggio and Cummerata', '', '(249) 1489', 'google.es'),
 (52, 84, 'Bernhard, VonRueden and Reichel', '', '(914) 1255', 'latimes.com'),
 (53, 16, 'Sanford Group', '', '(180) 4074', 'last.fm'),
-(55, 5, 'banco los pros', 'calle los prosss', '626262', 'www.mibanco.com');
+(55, 5, 'banco los pros', 'calle los prosss', '626262', 'www.mibanco.com'),
+(56, 5, 'Banco prueba Postman', 'calle ....', '630630630', 'www.bancopostman.com');
 
 -- --------------------------------------------------------
 
@@ -824,7 +825,8 @@ INSERT INTO `barrio` (`id_barrio`, `nombre`, `id_habitantes`, `id_comuna`) VALUE
 (191, ' Villarelis Dos', 47, 7),
 (192, ' Villarelis Uno', 14, 7),
 (193, ' Villarelis Tres', 6, 7),
-(194, 'Los Mas Pros', 55, 5);
+(194, 'Los Mas Pros', 55, 5),
+(195, 'Este es un nuevo barrio', 57, 5);
 
 -- --------------------------------------------------------
 
@@ -878,7 +880,8 @@ INSERT INTO `colegio` (`id_colegio`, `id_barrio`, `nombre`, `direccion`, `telefo
 (28, 34, 'Pouros-Block', '50262 Crescent Oaks Alley', '(249) 9113', 'php.net', 2, 2),
 (29, 3, 'Jerde, Monahan and Haley', '0520 Service Circle', '(285) 3726', 'vk.com', 2, 1),
 (30, 1, 'Kub and Sons', '120 Hoffman Avenue', '(452) 6506', 'g.co', 1, 2),
-(31, 5, 'colegio los pros', 'calle los pross', '65854125', 'www.micolegio.com', 1, 1);
+(31, 5, 'colegio los pros', 'calle los pross', '65854125', 'www.micolegio.com', 1, 1),
+(32, 5, 'Colegio prueba Postman ', 'Calle 666', '785698', 'www.postman.com', 2, 2);
 
 -- --------------------------------------------------------
 
@@ -905,7 +908,8 @@ INSERT INTO `comuna` (`id_comuna`, `estrato`, `n_comuna`, `id_habitantes`) VALUE
 (5, 2, 5, 4),
 (6, 2, 6, 2),
 (7, 1, 7, 1),
-(8, 10, 8, 56);
+(8, 10, 8, 56),
+(10, 5, 9, 58);
 
 -- --------------------------------------------------------
 
@@ -978,7 +982,9 @@ INSERT INTO `habitantes` (`id_habitantes`, `cantidad_habitantes`) VALUES
 (53, 2797),
 (54, 749),
 (55, 999),
-(56, 555);
+(56, 555),
+(57, 69),
+(58, 666);
 
 -- --------------------------------------------------------
 
@@ -1030,7 +1036,8 @@ INSERT INTO `hospital` (`id_hospital`, `id_barrio`, `nombre`, `direccion`, `tele
 (51, 72, 'Marquardt-Hessel', '', '(149) 6483', 'freewebs.com'),
 (53, 129, 'Schimmel and Sons', '', '(251) 6590', 'java.com'),
 (54, 193, 'Lockman Inc', '', '(700) 8193', 'stumbleupon.com'),
-(55, 5, 'hospital los pros', 'calle los pro', '314314314', 'www.hospital.com');
+(55, 5, 'hospital los pros', 'calle los pro', '314314314', 'www.hospital.com'),
+(56, 5, 'Hospital prueba Postman', 'Calle 666', '785698', 'www.hospitalpostman.com');
 
 -- --------------------------------------------------------
 
@@ -1086,7 +1093,8 @@ INSERT INTO `mensajeria` (`id_mensajeria`, `id_barrio`, `nombre`, `direccion`, `
 (49, 138, 'Harvey, Cartwright and Treutel', '', '(107) 6344', 'imdb.com'),
 (50, 34, 'Wiegand-Johnson', '', '(728) 9391', 'canalblog.com'),
 (51, 130, 'Trantow Inc', '', '(572) 3192', 'ibm.com'),
-(52, 5, 'Mensajeria Los Pros', 'Calle ####', '602605262', 'www.mensajeriaslospros.com');
+(52, 5, 'Mensajeria Los Pros', 'Calle ####', '602605262', 'www.mensajeriaslospros.com'),
+(54, 5, 'Mensajeria prueba Postman', 'Calle 666', '785698', 'www.hospitalpostman.com');
 
 -- --------------------------------------------------------
 
@@ -1177,7 +1185,9 @@ INSERT INTO `universidad` (`id_universidad`, `id_barrio`, `nombre`, `direccion`,
 (28, 6, 'Gleason LLC', '', '(655) 2834', 'quantcast.com', 2),
 (29, 22, 'Davis, Gutmann and Dietrich', '', '(103) 4840', 'boston.com', 2),
 (30, 185, 'Ledner and Sons', '', '(600) 3504', 'hubpages.com', 2),
-(31, 5, 'universidad los pros', 'calle calle', '32654789', 'www.miuniversidad.com', 2);
+(31, 5, 'universidad los pros', 'calle calle', '32654789', 'www.miuniversidad.com', 2),
+(32, 5, 'Universidad prueba Postman', 'Calle 666', '785698', 'www.postman.com', 2),
+(33, 5, 'Colegio prueba Postman ', 'Calle 666', '785698', 'www.postman.com', 2);
 
 --
 -- Índices para tablas volcadas
@@ -1195,6 +1205,7 @@ ALTER TABLE `banco`
 --
 ALTER TABLE `barrio`
   ADD PRIMARY KEY (`id_barrio`),
+  ADD UNIQUE KEY `nombre` (`nombre`),
   ADD KEY `id_habitantes` (`id_habitantes`),
   ADD KEY `id_comuna` (`id_comuna`);
 
@@ -1263,43 +1274,43 @@ ALTER TABLE `universidad`
 -- AUTO_INCREMENT de la tabla `banco`
 --
 ALTER TABLE `banco`
-  MODIFY `id_banco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id_banco` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT de la tabla `barrio`
 --
 ALTER TABLE `barrio`
-  MODIFY `id_barrio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=195;
+  MODIFY `id_barrio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=197;
 
 --
 -- AUTO_INCREMENT de la tabla `colegio`
 --
 ALTER TABLE `colegio`
-  MODIFY `id_colegio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id_colegio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `comuna`
 --
 ALTER TABLE `comuna`
-  MODIFY `id_comuna` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_comuna` int(1) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `habitantes`
 --
 ALTER TABLE `habitantes`
-  MODIFY `id_habitantes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
+  MODIFY `id_habitantes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT de la tabla `hospital`
 --
 ALTER TABLE `hospital`
-  MODIFY `id_hospital` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id_hospital` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT de la tabla `mensajeria`
 --
 ALTER TABLE `mensajeria`
-  MODIFY `id_mensajeria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id_mensajeria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT de la tabla `modalidad`
@@ -1317,7 +1328,7 @@ ALTER TABLE `publico_privado`
 -- AUTO_INCREMENT de la tabla `universidad`
 --
 ALTER TABLE `universidad`
-  MODIFY `id_universidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id_universidad` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- Restricciones para tablas volcadas

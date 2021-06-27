@@ -1,7 +1,6 @@
 const responseError = (res, err) => {
-    res.json({
+    res.status(500).json({
         ok: false,
-        status: 500,
         err,
     });
 };
