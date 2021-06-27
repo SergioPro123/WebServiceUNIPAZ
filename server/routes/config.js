@@ -6,6 +6,7 @@ app.use(require('./barrio').app);
 app.use(require('./mensajeria').app);
 app.use(require('./hospital').app);
 app.use(require('./banco').app);
+app.use(require('./universidad').app);
 
 module.exports = {
     app,
