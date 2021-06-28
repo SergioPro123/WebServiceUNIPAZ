@@ -25,7 +25,7 @@ DELIMITER $$
 --
 -- Procedimientos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `AddBanco` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `nombre_banco` VARCHAR(50), IN `direccion_VARIABLE` VARCHAR(50), IN `telefono_VARIABLE` VARCHAR(10), IN `sitio_web_VARIABLE` VARCHAR(100))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `AddBanco` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `nombre_banco` VARCHAR(50), IN `direccion_VARIABLE` VARCHAR(50), IN `telefono_VARIABLE` VARCHAR(10), IN `sitio_web_VARIABLE` VARCHAR(100))  BEGIN
 	CALL getIdBarrioByNombreBarrio(nombre_barrio_VARIABLE,@id_barrio);
 	INSERT INTO banco
     	(banco.id_barrio,banco.nombre,
@@ -34,7 +34,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `AddBanco` (IN `nombre_barrio_VARIAB
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `AddBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `numero_habitantes_VARIABLE` INT(11), IN `numero_comuna_VARIABLE` INT(3))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `AddBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `numero_habitantes_VARIABLE` INT(11), IN `numero_comuna_VARIABLE` INT(3))  BEGIN
 	CALL 
     GetOrAddHabitantes(numero_habitantes_VARIABLE,@id_habitantes);
     CALL 
@@ -45,7 +45,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `AddBarrio` (IN `nombre_barrio_VARIA
         
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `AddColegio` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `nombre_colegio_VARIABLE` VARCHAR(50), IN `direccion_VARIABLE` VARCHAR(50), IN `telefono_VARIABLE` VARCHAR(10), IN `sitio_web_VARIABLE` VARCHAR(100), IN `sector_VARIABLE` VARCHAR(7), IN `modalidad_VARIABLE` VARCHAR(30))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `AddColegio` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `nombre_colegio_VARIABLE` VARCHAR(50), IN `direccion_VARIABLE` VARCHAR(50), IN `telefono_VARIABLE` VARCHAR(10), IN `sitio_web_VARIABLE` VARCHAR(100), IN `sector_VARIABLE` VARCHAR(7), IN `modalidad_VARIABLE` VARCHAR(30))  BEGIN
 
 	CALL getIdPublicoPrivado(sector_VARIABLE,@id_publico_privado);
     CALL getIdBarrioByNombreBarrio(nombre_barrio_VARIABLE,@id_barrio);
@@ -59,7 +59,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `AddColegio` (IN `nombre_barrio_VARI
                telefono_VARIABLE,sitio_web_VARIABLE,@id_publico_privado,@id_modalidad);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `AddComuna` (IN `numero_comuna_VARIABLE` INT(3), IN `estrato_comuna_VARIABLE` INT(1), IN `numero_habitantes_VARIABLE` INT(11))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `AddComuna` (IN `numero_comuna_VARIABLE` INT(3), IN `estrato_comuna_VARIABLE` INT(1), IN `numero_habitantes_VARIABLE` INT(11))  BEGIN
 	CALL 
     GetOrAddHabitantes(numero_habitantes_VARIABLE,@id_habitantes);
 	INSERT INTO comuna
@@ -68,7 +68,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `AddComuna` (IN `numero_comuna_VARIA
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `AddHospital` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `nombre_hospital_VARIABLE` VARCHAR(50), IN `direccion_VARIABLE` VARCHAR(50), IN `telefono_VARIABLE` VARCHAR(10), IN `sitio_web_VARIABLE` VARCHAR(100))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `AddHospital` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `nombre_hospital_VARIABLE` VARCHAR(50), IN `direccion_VARIABLE` VARCHAR(50), IN `telefono_VARIABLE` VARCHAR(10), IN `sitio_web_VARIABLE` VARCHAR(100))  BEGIN
 	CALL getIdBarrioByNombreBarrio(nombre_barrio_VARIABLE,@id_barrio);
 	INSERT INTO hospital
     	(hospital.id_barrio,hospital.nombre,
@@ -77,7 +77,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `AddHospital` (IN `nombre_barrio_VAR
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `AddMensajeria` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `nombre_mensajeria` VARCHAR(50), IN `direccion_VARIABLE` VARCHAR(50), IN `telefono_VARIABLE` VARCHAR(10), IN `sitio_web_VARIABLE` VARCHAR(100))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `AddMensajeria` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `nombre_mensajeria` VARCHAR(50), IN `direccion_VARIABLE` VARCHAR(50), IN `telefono_VARIABLE` VARCHAR(10), IN `sitio_web_VARIABLE` VARCHAR(100))  BEGIN
 	CALL getIdBarrioByNombreBarrio(nombre_barrio_VARIABLE,@id_barrio);
 	INSERT INTO mensajeria
     	(mensajeria.id_barrio,mensajeria.nombre,
@@ -86,7 +86,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `AddMensajeria` (IN `nombre_barrio_V
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `AddUniversidad` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `nombre_universidad_VARIABLE` VARCHAR(50), IN `direccion_VARIABLE` VARCHAR(50), IN `telefono_VARIABLE` VARCHAR(10), IN `sitio_web_VARIABLE` VARCHAR(100), IN `sector_VARIABLE` VARCHAR(7))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `AddUniversidad` (IN `nombre_barrio_VARIABLE` VARCHAR(50), IN `nombre_universidad_VARIABLE` VARCHAR(50), IN `direccion_VARIABLE` VARCHAR(50), IN `telefono_VARIABLE` VARCHAR(10), IN `sitio_web_VARIABLE` VARCHAR(100), IN `sector_VARIABLE` VARCHAR(7))  BEGIN
 
 	CALL getIdPublicoPrivado(sector_VARIABLE,@id_publico_privado);
     CALL getIdBarrioByNombreBarrio(nombre_barrio_VARIABLE,@id_barrio);
@@ -98,7 +98,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `AddUniversidad` (IN `nombre_barrio_
                telefono_VARIABLE,sitio_web_VARIABLE,@id_publico_privado);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getBancoByBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getBancoByBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50))  BEGIN
 	SELECT banco.nombre nombre_banco,
     	   comuna.n_comuna as numero_comuna,
            comuna.estrato,
@@ -121,7 +121,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getBancoByBarrio` (IN `nombre_barri
      WHERE myBarrio.nombre = nombre_barrio_VARIABLE;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getBancoByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getBancoByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
 	SELECT banco.nombre nombre_banco,
     	   comuna.n_comuna as numero_comuna,
            comuna.estrato,
@@ -144,7 +144,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getBancoByNumeroComuna` (IN `numero
      WHERE comuna.n_comuna = numero_comuna_VARIABLE;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getBancos` ()  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getBancos` ()  BEGIN
 	SELECT banco.nombre nombre_banco,
     	   comuna.n_comuna as numero_comuna,
            comuna.estrato,
@@ -166,7 +166,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getBancos` ()  BEGIN
         	= habitantes.id_habitantes;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getBarrios` ()  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getBarrios` ()  BEGIN
        SELECT  
        	barrio.nombre as nombre_barrio,
         comuna.n_comuna,
@@ -180,7 +180,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getBarrios` ()  BEGIN
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getBarriosByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(2))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getBarriosByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(2))  BEGIN
        SELECT  
        	barrio.nombre as nombre_barrio,
         comuna.n_comuna,
@@ -193,7 +193,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getBarriosByNumeroComuna` (IN `nume
     WHERE comuna.n_comuna = numero_comuna_VARIABLE;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getColegioByBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getColegioByBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50))  BEGIN
 	SELECT colegio.nombre nombre_colegio,
     	   comuna.n_comuna as numero_comuna,
            comuna.estrato,
@@ -224,7 +224,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getColegioByBarrio` (IN `nombre_bar
     	myBarrio.nombre = nombre_barrio_VARIABLE;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getColegioByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getColegioByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
 	SELECT colegio.nombre nombre_colegio,
     	   comuna.n_comuna as numero_comuna,
            comuna.estrato,
@@ -255,7 +255,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getColegioByNumeroComuna` (IN `nume
     	comuna.n_comuna = numero_comuna_VARIABLE;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getColegios` ()  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getColegios` ()  BEGIN
 	SELECT colegio.nombre nombre_colegio,
     	   comuna.n_comuna as numero_comuna,
            comuna.estrato,
@@ -284,7 +284,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getColegios` ()  BEGIN
         	= habitantes.id_habitantes;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getComunas` ()  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getComunas` ()  BEGIN
     SELECT comuna.n_comuna,
     	   comuna.estrato,
     	   habitantes.cantidad_habitantes AS numero_habitantes
@@ -294,7 +294,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getComunas` ()  BEGIN
     	= habitantes.id_habitantes;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getComunasByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getComunasByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
     SELECT comuna.n_comuna,
     	   comuna.estrato,
     	   habitantes.cantidad_habitantes AS numero_habitantes
@@ -306,7 +306,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getComunasByNumeroComuna` (IN `nume
     	comuna.n_comuna = numero_comuna_VARIABLE;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getHospitalByBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getHospitalByBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50))  BEGIN
 	SELECT hospital.nombre nombre_hospital,
     	   comuna.n_comuna as numero_comuna,
            comuna.estrato,
@@ -329,7 +329,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getHospitalByBarrio` (IN `nombre_ba
      WHERE myBarrio.nombre = nombre_barrio_VARIABLE;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getHospitalByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getHospitalByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
 	SELECT hospital.nombre nombre_hospital,
     	   comuna.n_comuna as numero_comuna,
            comuna.estrato,
@@ -352,7 +352,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getHospitalByNumeroComuna` (IN `num
      WHERE comuna.n_comuna = numero_comuna_VARIABLE;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getHospitales` ()  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getHospitales` ()  BEGIN
 	SELECT hospital.nombre nombre_hospital,
     	   comuna.n_comuna as numero_comuna,
            comuna.estrato,
@@ -374,7 +374,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getHospitales` ()  BEGIN
         	= habitantes.id_habitantes;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getIdBarrioByNombreBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50), OUT `id_barrio_OUT` INT(11))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getIdBarrioByNombreBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50), OUT `id_barrio_OUT` INT(11))  BEGIN
     SELECT barrio.id_barrio
     INTO id_barrio_OUT
     FROM barrio
@@ -383,7 +383,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getIdBarrioByNombreBarrio` (IN `nom
     LIMIT 1;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetIdComunaByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3), OUT `id_comuna_OUT` INT(3))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `GetIdComunaByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3), OUT `id_comuna_OUT` INT(3))  BEGIN
     SELECT comuna.id_comuna
     INTO id_comuna_OUT
     FROM comuna
@@ -394,7 +394,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `GetIdComunaByNumeroComuna` (IN `num
     	comuna.n_comuna = numero_comuna_VARIABLE;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getIdModalidad` (IN `modadlidad_VARIABLE` VARCHAR(30), OUT `id_modalidad_OUT` INT(1))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getIdModalidad` (IN `modadlidad_VARIABLE` VARCHAR(30), OUT `id_modalidad_OUT` INT(1))  BEGIN
 
 	SELECT  modalidad.id_modalidad
     INTO id_modalidad_OUT
@@ -403,7 +403,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getIdModalidad` (IN `modadlidad_VAR
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getIdPublicoPrivado` (IN `sector_VARIABLE` VARCHAR(7), OUT `id_publico_privado_OUT` INT)  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getIdPublicoPrivado` (IN `sector_VARIABLE` VARCHAR(7), OUT `id_publico_privado_OUT` INT)  BEGIN
 
 	SELECT publico_privado.id_publico_privado
     INTO id_publico_privado_OUT
@@ -412,7 +412,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getIdPublicoPrivado` (IN `sector_VA
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getMensajeriaByBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getMensajeriaByBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50))  BEGIN
 	SELECT mensajeria.nombre nombre_mensajeria,
     	   comuna.n_comuna as numero_comuna,
            comuna.estrato,
@@ -435,7 +435,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getMensajeriaByBarrio` (IN `nombre_
      WHERE myBarrio.nombre = nombre_barrio_VARIABLE;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getMensajeriaByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getMensajeriaByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
 	SELECT mensajeria.nombre nombre_mensajeria,
     	   comuna.n_comuna as numero_comuna,
            comuna.estrato,
@@ -458,7 +458,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getMensajeriaByNumeroComuna` (IN `n
      WHERE comuna.n_comuna = numero_comuna_VARIABLE;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getMensajerias` ()  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getMensajerias` ()  BEGIN
 	SELECT mensajeria.nombre nombre_mensajeria,
     	   comuna.n_comuna as numero_comuna,
            comuna.estrato,
@@ -480,7 +480,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getMensajerias` ()  BEGIN
         	= habitantes.id_habitantes;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `GetOrAddHabitantes` (IN `numero_habitantesVariable` INT(11), OUT `id_habitantes_OUT` INT(11))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `GetOrAddHabitantes` (IN `numero_habitantesVariable` INT(11), OUT `id_habitantes_OUT` INT(11))  BEGIN
 	DECLARE existeHabitantes INT;
     SELECT  COUNT(habitantes.id_habitantes) 
     	INTO existeHabitantes 
@@ -500,7 +500,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `GetOrAddHabitantes` (IN `numero_hab
     END IF;    
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getUniversidadByBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getUniversidadByBarrio` (IN `nombre_barrio_VARIABLE` VARCHAR(50))  BEGIN
 	SELECT universidad.nombre nombre_universidad,
     	   comuna.n_comuna as numero_comuna,
            comuna.estrato,
@@ -528,7 +528,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUniversidadByBarrio` (IN `nombre
     	myBarrio.nombre = nombre_barrio_VARIABLE;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getUniversidadByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getUniversidadByNumeroComuna` (IN `numero_comuna_VARIABLE` INT(3))  BEGIN
 	SELECT universidad.nombre nombre_universidad,
     	   comuna.n_comuna as numero_comuna,
            comuna.estrato,
@@ -556,7 +556,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getUniversidadByNumeroComuna` (IN `
     	comuna.n_comuna = numero_comuna_VARIABLE;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getUniversidades` ()  BEGIN
+CREATE DEFINER=`ufccbnmtkc32unul`@`%` PROCEDURE `getUniversidades` ()  BEGIN
 	SELECT universidad.nombre nombre_universidad,
     	   comuna.n_comuna as numero_comuna,
            comuna.estrato,
