@@ -1,4 +1,5 @@
-host: db4free.net
-nombre base de datos: apiwebserviceuni
-usuario:losprosdeunipaz
-password:losprosdeunipaz123
+host: bsxaerynl5htoxnovkp4-mysql.services.clever-cloud.com
+nombre base de datos: bsxaerynl5htoxnovkp4
+usuario:ufccbnmtkc32unul
+password:ebO6nMbKBYP58vMs5p2T
+conexion uri: mysql://ufccbnmtkc32unul:ebO6nMbKBYP58vMs5p2T@bsxaerynl5htoxnovkp4-mysql.services.clever-cloud.com:3306/bsxaerynl5htoxnovkp4
