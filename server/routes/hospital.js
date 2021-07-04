@@ -26,6 +26,28 @@ app.get('/API/barrancabermeja/hospitales', (req, res) => {
     });
 });
 
+//API para obtener todas los hospitales de un barrio en especifico
+app.get('/API/barrancabermeja/barrios/:nombre_barrio/hospitales', (req, res) => {
+    MySQL.getDatos(`CALL getHospitalByBarrio('${req.params.nombre_barrio}');`, (err, data) => {
+        if (err) {
+            var { sql, ...err } = err;
+            return responseError(res, err);
+        }
+        sendDataJson(res, data);
+    });
+});
+
+//API para obtener todas los hospitales de una comuna en especifico
+app.get('/API/barrancabermeja/comunas/:n_comuna/hospitales', (req, res) => {
+    MySQL.getDatos(`CALL getHospitalByNumeroComuna(${req.params.n_comuna});`, (err, data) => {
+        if (err) {
+            var { sql, ...err } = err;
+            return responseError(res, err);
+        }
+        sendDataJson(res, data);
+    });
+});
+
 //API que agrega un nuevo Hospital
 app.post('/API/barrancabermeja/hospitales', validacionCrearHospital, (req, res) => {
     const errors = validationResult(req);
