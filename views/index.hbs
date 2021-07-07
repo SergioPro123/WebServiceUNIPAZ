@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+	<meta charset="UTF-8">
+	<title>API</title>
+	<link rel="stylesheet" href="/css/estilos.css">
+	<div class="all">
+
+		<header class="header">
+			<div class="container">
+			<div class="btn-menu">
+				<label for="btn-menu">☰</label>
+			</div>
+				<div class="logo">
+					<h1>MENU</h1>
+				</div>
+				<nav class="menu">
+					<a href="#">Inicio</a>
+					<a href="#">Nosotros</a>
+					<a href="#">Blog</a>
+					<a href="#">Contacto</a>
+				</nav>
+			</div>
+			<div style="text-align: center;">
+
+				<div class=" barra2">
+					<hr color="#bfe8eb" size=2 width="1150">
+				</div>
+			</div>
+			
+		</header>
+		<div class="capa"></div>
+	<!--	--------------->
+	<input type="checkbox" id="btn-menu">
+	<div class="container-menu">
+		<div class="cont-menu">
+			<nav>
+				<a href="#">Inicio</a>
+				<a href="#">Servicios</a>
+			</nav>
+			<label for="btn-menu">✖️</label>
+		</div>
+	</div>
+	
+	<div class="rest">
+		<h1>REST</h1>
+	</div>
+	<div class="api">
+		<h1>API</h1>
+	</div>
+</div>
+</head>
+
+<!--------------------------------------------------------	---------------------------------------------------------->
+<!--------------------------------------------------------	---------------------------------------------------------->
+<!--------------------------------------------------------	---------------------------------------------------------->
+
+
+<body>
+	<section>
+<div class="container">
+<!--GET/barrancabermeja/-->
+		<table>
+			<tr>
+				<td>Método:</td>
+				<td>GET</td>
+			</tr>
+			<tr>
+				<td>URL:</td>
+				<td>/api/barrancabermeja</td>
+			</tr>
+			<tr>
+				<td>Funcionalidad:</td>
+				<td>Retorna una lista de servicios y las comunas de la ciudad</td>
+			</tr>
+			</table>
+
+		<h4>API/barrancabermeja/</h4>
+	<pre class="codigo1">
+	<code>
+	{
+		"barrancabermeja":[
+		"comunas"
+		"hoteles",
+		"mensajerias",
+		"restaurantes",
+		"colegios",
+		"universidades",
+		"parques",
+		"corregimientos",
+		"estaciones de servicio",
+		"bancos"
+		],
+	}
+	</code>
+	</pre>
+
+<!--Obtener todas las comunas-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/comunas</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todas las comunas de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/comunas</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	numero_habitantes: retorna la cantidad de habitantes de la comuna.
+	  
+</code>
+</pre>
+
+<!--Obtener una comuna en especifico-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/comunas/{n_comuna}</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna una comuna especifica de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/comunas/{n_comuna}</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	numero_habitantes: retorna la cantidad de habitantes de la comuna.
+	  
+</code>
+</pre>
+
+
+<!--agg una comuna-->
+<table class="post">
+	<tr>
+		<td>Método:</td>
+		<td>POST</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/comunas</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>Agregar una comuna</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/comunas</h4>
+<pre class="codigo1">
+<code>
+	numero_comuna
+	numero_habitantes
+	estrato 
+</code>
+</pre>
+
+
+<!--Obtener todos los barrios-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/barrios</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todas los barrios de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/barrios  -  Obtener todos los barrios</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_barrio: retorna el nombre del barrio,
+	n_comuna: retorna el numero de la comuna,
+	numero_habitantes: retorna la cantidad de habitantes de la comuna.
+</code>
+</pre>
+
+<!--Obtener los barrios por comuna-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/barrios/{n_comuna}</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todas los barrios de una comuna de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/barrios/{n_comuna}  -  Obtener todos los barrios por una comuna en especifico</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_barrio: retorna el nombre del barrio,
+	n_comuna: retorna el numero de la comuna,
+	numero_habitantes: retorna la cantidad de habitantes de la comuna.
+</code>
+</pre>
+
+<!--agg un barrio-->
+<table class="post">
+	<tr>
+		<td>Método:</td>
+		<td>POST</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/barrios</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>Agregar un Barrio</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/barrios</h4>
+<pre class="codigo1">
+<code>
+	nombre_barrio
+	numero_comuna
+	numero_habitantes
+</code>
+</pre>
+
+
+<!--Obtener todas las mensajerias-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/mensajerias</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todas las mensajerias de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/mensajerias  -  Obtener todas las mensajerias</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_mesajeria: retorna el nombre de la mensajeria             
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	nombre_barrio: retorna el nombre del barrio donde se ubica, 
+	cantidad_habitantes_barrio: retorna la cantidad de habitantes del barrio, 
+	direccion: retorna la direccion de la mensajeria,                 
+	telefono: retorna el telefono de la mensajeria,                 
+	sitio_web: retorna el sitio web de la mensajeria
+</code>
+</pre>
+
+<!--Obtener todas las mensajerias por un barrio en especifico-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/barrios/{nombre_barrio}/mensajerias</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todas las mensajerias de un barrio en especifico de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/barrios/{nombre_barrio}/mensajerias  -  Obtener todas las mensajerias por un barrio en especifico</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_mesajeria: retorna el nombre de la mensajeria             
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	nombre_barrio: retorna el nombre del barrio donde se ubica, 
+	cantidad_habitantes_barrio: retorna la cantidad de habitantes del barrio, 
+	direccion: retorna la direccion de la mensajeria,                 
+	telefono: retorna el telefono de la mensajeria,                 
+	sitio_web: retorna el sitio web de la mensajeria
+</code>
+</pre>
+
+<!--Obtener todas las mensajerias de una comuna en especifico-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/comunas/{NumComuna}/mensajerias</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todas las mensajerias de una comuna en especifico de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/comunas/{NumComuna}/mensajerias  -  Obtener todas las mensajerias de una comuna en especifico</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_mesajeria: retorna el nombre de la mensajeria             
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	nombre_barrio: retorna el nombre del barrio donde se ubica, 
+	cantidad_habitantes_barrio: retorna la cantidad de habitantes del barrio, 
+	direccion: retorna la direccion de la mensajeria,                 
+	telefono: retorna el telefono de la mensajeria,                 
+	sitio_web: retorna el sitio web de la mensajeria
+</code>
+</pre>
+
+<!--agg una mensajeria-->
+<table class="post">
+	<tr>
+		<td>Método:</td>
+		<td>POST</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/mensajerias</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>Agregar una Mensajeria</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/mensajerias</h4>
+<pre class="codigo1">
+<code>
+	nombre_barrio
+	nombre_mensajeria
+	direccion
+	telefono
+	sitio_web
+</code>
+</pre>
+
+
+<!--Obtener todos los hospitales-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/hospitales</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todos los hospitales de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/hospitales  -  Obtener todos los hospitales</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_hospitales: retorna el nombre del hospital             
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	nombre_barrio: retorna el nombre del barrio donde se ubica, 
+	cantidad_habitantes_barrio: retorna la cantidad de habitantes del barrio, 
+	direccion: retorna la direccion del hospital,                 
+	telefono: retorna el telefono del hospital,                 
+	sitio_web: retorna el sitio web de la hospital
+</code>
+</pre>
+
+<!--Obtener todos los hospitales por un barrio en especifico-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/barrios/{nombre_barrio}/hospitales</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todos los hospitales de un barrio en especifico de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/barrios/{nombre_barrio}/hospitales  -  Obtener todos los hospitales por un barrio en especifico</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_hospitales: retorna el nombre del hospital             
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	nombre_barrio: retorna el nombre del barrio donde se ubica, 
+	cantidad_habitantes_barrio: retorna la cantidad de habitantes del barrio, 
+	direccion: retorna la direccion del hospital,                 
+	telefono: retorna el telefono del hospital,                 
+	sitio_web: retorna el sitio web de la hospital
+</code>
+</pre>
+
+<!--Obtener todos los hospitales por una comuna en especifico-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/comunas/{NumComuna}/hospitales</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todos los hospitales de una comuna en especifico de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/comunas/{NumComuna}/hospitales  -  Obtener todos los hospitales por una comuna en especifico</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_hospitales: retorna el nombre del hospital             
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	nombre_barrio: retorna el nombre del barrio donde se ubica, 
+	cantidad_habitantes_barrio: retorna la cantidad de habitantes del barrio, 
+	direccion: retorna la direccion del hospital,                 
+	telefono: retorna el telefono del hospital,                 
+	sitio_web: retorna el sitio web de la hospital
+</code>
+</pre>
+
+<!--agg una hospitales-->
+<table class="post">
+	<tr>
+		<td>Método:</td>
+		<td>POST</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/hospitales</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>Agregar un Hospital</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/hospitales</h4>
+<pre class="codigo1">
+<code>
+	nombre_barrio
+	nombre_hospital
+	direccion
+	telefono
+	sitio_web
+</code>
+</pre>
+
+
+<!--Obtener todos los bancos-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/bancos</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todos los bancos de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>Obtener todos los bancos</h4>
+<h4>API/barrancabermeja/banco</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_banco: retorna el nombre del banco             
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	nombre_barrio: retorna el nombre del barrio donde se ubica, 
+	cantidad_habitantes_barrio: retorna la cantidad de habitantes del barrio, 
+	direccion: retorna la direccion de la banco,                 
+	telefono: retorna el telefono de la banco,                 
+	sitio_web: retorna el sitio web de la banco
+</code>
+</pre>
+
+<!--Obtener todos los bancos por un barrio en especifico-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/barrios/{nombre_barrio}/bancos</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todos los bancos de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>Obtener todos los bancos por un barrio en especifico</h4>
+<h4>API/barrancabermeja/barrios/{nombre_barrio}/bancos</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_banco: retorna el nombre del banco             
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	nombre_barrio: retorna el nombre del barrio donde se ubica, 
+	cantidad_habitantes_barrio: retorna la cantidad de habitantes del barrio, 
+	direccion: retorna la direccion de la banco,                 
+	telefono: retorna el telefono de la banco,                 
+	sitio_web: retorna el sitio web de la banco
+</code>
+</pre>
+
+<!--Obtener todos los bancos por una comuna en especifico-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/comunas/{NumComuna}/bancos</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todas los bancos de una comuna en especifico de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>Obtener todos los bancos por una comuna en especifico</h4>
+<h4>API/barrancabermeja/comunas/{NumComuna}/bancos</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_banco: retorna el nombre del banco             
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	nombre_barrio: retorna el nombre del barrio donde se ubica, 
+	cantidad_habitantes_barrio: retorna la cantidad de habitantes del barrio, 
+	direccion: retorna la direccion de la banco,                 
+	telefono: retorna el telefono de la banco,                 
+	sitio_web: retorna el sitio web de la banco
+</code>
+</pre>
+
+<!--agg un banco-->
+<table class="post">
+	<tr>
+		<td>Método:</td>
+		<td>POST</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/bancos</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>Agregar un Banco</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/bancos</h4>
+<pre class="codigo1">
+<code>
+	nombre_barrio
+	nombre_banco
+	direccion
+	telefono
+	sitio_web
+</code>
+</pre>
+
+
+<!--Obtener todas las universidades-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/universidades</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todas las universidades de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>Obtener todas las universidades</h4>
+<h4>API/barrancabermeja/universidades</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_universidad: retorna el nombre de la universidad             
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	nombre_barrio: retorna el nombre del barrio donde se ubica, 
+	cantidad_habitantes_barrio: retorna la cantidad de habitantes del barrio, 
+	direccion: retorna la direccion de la universidad,                 
+	telefono: retorna el telefono de la universidad,                 
+	sitio_web: retorna el sitio web de la universidad,                  
+	sector: retorna el sector al que pertenece
+</code>
+</pre>
+
+<!--Obtener todas las universidades por un barrio en especifico-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/barrios/{nombre_barrio}/universidades</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todas las universidades de un barrio en especifico de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>Obtener todas las universidades por un barrio en especifico</h4>
+<h4>API/barrancabermeja/barrios/{nombre_barrio}/universidades</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_universidad: retorna el nombre de la universidad             
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	nombre_barrio: retorna el nombre del barrio donde se ubica, 
+	cantidad_habitantes_barrio: retorna la cantidad de habitantes del barrio, 
+	direccion: retorna la direccion de la universidad,                 
+	telefono: retorna el telefono de la universidad,                 
+	sitio_web: retorna el sitio web de la universidad,                  
+	sector: retorna el sector al que pertenece
+</code>
+</pre>
+
+<!--Obtener todas las universidades por medio de una comuna en especifico-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/comunas/{NumComuna}/universidades</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todas las universidadesde una comuna en especifico de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>Obtener todas las universidades por medio de una comuna en especifico</h4>
+<h4>API/barrancabermeja/comunas/{NumComuna}/universidades</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_universidad: retorna el nombre de la universidad             
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	nombre_barrio: retorna el nombre del barrio donde se ubica, 
+	cantidad_habitantes_barrio: retorna la cantidad de habitantes del barrio, 
+	direccion: retorna la direccion de la universidad,                 
+	telefono: retorna el telefono de la universidad,                 
+	sitio_web: retorna el sitio web de la universidad,                  
+	sector: retorna el sector al que pertenece
+</code>
+</pre>
+
+<!--agg una universidad-->
+<table class="post">
+	<tr>
+		<td>Método:</td>
+		<td>POST</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/universidades</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>Agregar una Univeridad</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/universidades</h4>
+<pre class="codigo1">
+<code>
+	nombre_barrio
+	nombre_universidad
+	direccion
+	telefono
+	sitio_web
+	sector
+</code>
+</pre>
+
+
+<!--Obtener todos los colegios-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/colegios</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todos los colegios de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>Obtener todos los colegios</h4>
+<h4>API/barrancabermeja/colegios</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_colegio: retorna el nombre de la colegio             
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	nombre_barrio: retorna el nombre del barrio donde se ubica, 
+	cantidad_habitantes_barrio: retorna la cantidad de habitantes del barrio, 
+	direccion: retorna la direccion de la colegio,                 
+	telefono: retorna el telefono de la colegio,                 
+	sitio_web: retorna el sitio web de la colegio,                  
+	sector: retorna el sector al que pertenece,                      
+	modalidad: retorna el tipo de modalidad del colegio
+</code>
+</pre>
+
+<!--Obtener todos los colegio por un barrio en especifico-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/barrios/{nombre_barrio}/colegios</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todos los colegios de un barrio en especifico de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>Obtener todos los colegio por un barrio en especifico</h4>
+<h4>API/barrancabermeja/barrios/{nombre_barrio}/colegios</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_colegio: retorna el nombre de la colegio             
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	nombre_barrio: retorna el nombre del barrio donde se ubica, 
+	cantidad_habitantes_barrio: retorna la cantidad de habitantes del barrio, 
+	direccion: retorna la direccion de la colegio,                 
+	telefono: retorna el telefono de la colegio,                 
+	sitio_web: retorna el sitio web de la colegio,                  
+	sector: retorna el sector al que pertenece,                      
+	modalidad: retorna el tipo de modalidad del colegio
+</code>
+</pre>
+
+<!--Obtener todos los colegios por una comuna en especifico-->
+<table>
+	<tr>
+		<td>Método:</td>
+		<td>GET</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/comunas/{NumComuna}/colegios</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>API publica que retorna todos los colegios de una comuna en especifico de Barrancabermeja.</td>
+	</tr>
+	</table>
+<h4>Obtener todos los colegios por una comuna en especifico</h4>
+<h4>API/barrancabermeja/comunas/{NumComuna}/colegios</h4>
+<pre class="codigo1">
+<code>
+	Response Data:
+	nombre_colegio: retorna el nombre de la colegio             
+	n_comuna: retorna el numero de la comuna,
+	estrato: retorna el estrato de la comuna,
+	nombre_barrio: retorna el nombre del barrio donde se ubica, 
+	cantidad_habitantes_barrio: retorna la cantidad de habitantes del barrio, 
+	direccion: retorna la direccion de la colegio,                 
+	telefono: retorna el telefono de la colegio,                 
+	sitio_web: retorna el sitio web de la colegio,                  
+	sector: retorna el sector al que pertenece,                      
+	modalidad: retorna el tipo de modalidad del colegio
+</code>
+</pre>
+
+<!--agg un colegio-->
+<table class="post">
+	<tr>
+		<td>Método:</td>
+		<td>POST</td>
+	</tr>
+	<tr>
+		<td>URL:</td>
+		<td>https://apirestunipazbarrancabermeja.herokuapp.com/API/barrancabermeja/colegios</td>
+	</tr>
+	<tr>
+		<td>Funcionalidad:</td>
+		<td>Agregar un Colegio</td>
+	</tr>
+	</table>
+<h4>API/barrancabermeja/colegios</h4>
+<pre class="codigo1">
+<code>
+	nombre_barrio
+	nombre_colegio
+	direccion
+	telefono
+	sitio_web
+	sector
+	modalidad
+</code>
+</pre>
+</div>
+	</section>
+
+	<aside>
+
+	</aside>
+	<aside>
+
+
+	</aside>
+	<footer>
+	&copy; REST API
+	</footer>
+
+
+</body>
+</html>

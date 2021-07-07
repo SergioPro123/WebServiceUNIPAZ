@@ -9,6 +9,10 @@ app.use(require('./banco').app);
 app.use(require('./universidad').app);
 app.use(require('./colegio').app);
 
+app.get('/documentacion', (req, res) => {
+    return res.render('index');
+});
+
 module.exports = {
     app,
 };
